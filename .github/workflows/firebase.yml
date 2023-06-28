@@ -27,19 +27,15 @@ jobs:
       - name: yarn install, build, and test
         run: |
           yarn install
-          yarn build:test
-      - name: Create dist/test directory
-        run: mkdir -p dist/test
-      - name: Move build artifacts
-        run: mv build/* dist/test/
+          yarn build
       - name: Archive Build
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: dist/test
+          path: build
 
-  deploy_dev:
-    name: Deploy to Dev
+  deploy:
+    name: Deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -48,10 +44,10 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: dist/test
+          path: build
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting"
+          args: deploy --only hosting:test
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

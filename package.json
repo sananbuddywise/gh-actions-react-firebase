@@ -13,8 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build:test": "react-scripts build && mv build ./dist/test",
-    "build:prod": "react-scripts build && mv build ./dist/production",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

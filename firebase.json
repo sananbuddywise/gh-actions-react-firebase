@@ -2,7 +2,8 @@
   "hosting": [
     {
       "site": "test-gh-actions-react-firebas-a3c4f",
-      "public": "dist/dev",
+      "target": "test",
+      "public": "build",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -17,7 +18,8 @@
     },
     {
       "site": "gh-actions-react-firebas-a3c4f",
-      "public": "dist/production",
+      "target": "production",
+      "public": "build",
       "ignore": [
         "firebase.json",
         "**/.*",
