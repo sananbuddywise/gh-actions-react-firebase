@@ -6,13 +6,13 @@
     "gh-actions-react-firebas-a3c4f": {
       "hosting": {
         "dev": [
-          "test-gh-actions-react-firebas-a3c4f"
+          "dev-gh-actions-react-firebas-a3c4f"
         ],
         "test": [
-          "gh-actions-react-firebas-a3c4f"
+          "test-gh-actions-react-firebas-a3c4f"
         ],
         "production": [
-          "production-gh-actions-react-firebas-a3c4f"
+          "gh-actions-react-firebas-a3c4f"
         ]
         
       }
