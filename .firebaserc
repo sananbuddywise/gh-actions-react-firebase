@@ -5,13 +5,16 @@
   "targets": {
     "gh-actions-react-firebas-a3c4f": {
       "hosting": {
-        "test": [
+        "dev": [
           "test-gh-actions-react-firebas-a3c4f"
         ],
-
-        "production": [
+        "test": [
           "gh-actions-react-firebas-a3c4f"
+        ],
+        "production": [
+          "production-gh-actions-react-firebas-a3c4f"
         ]
+        
       }
     }
     
