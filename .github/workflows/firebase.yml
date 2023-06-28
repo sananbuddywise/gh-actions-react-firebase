@@ -1,16 +1,16 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Firebase CI
 
 on:
   push:
-    branches: [main]
+    branches:
+      - master
   pull_request:
-    branches: [main]
+    branches:
+      - master
 
 jobs:
-  build:
+  dev:
+    name: Development
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,10 +34,37 @@ jobs:
           name: build
           path: build
 
-  deploy:
-    name: Deploy
-    needs: build
+  testing:
+    name: Testing
+    needs: dev
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'  # Only run on pull requests
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+      - name: Run Tests
+        run: |
+          # Add commands for running tests
+
+  production:
+    name: Production
+    needs: testing
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'  # Only run on pull requests
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
       - uses: actions/checkout@v2
       - name: Download Build
@@ -51,3 +78,13 @@ jobs:
           args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+# Define the workflow-level "pull_request" event and specify jobs for manual approval
+# on the "testing" and "production" stages
+workflows:
+  pull_request_workflow:
+    jobs:
+      - testing:
+          if: github.event.pull_request.labels[0].name == 'test'
+      - production:
+          if: github.event.pull_request.labels[0].name == 'deploy'
