@@ -28,6 +28,10 @@ jobs:
         run: |
           yarn install
           yarn build:test
+      - name: Create dist/test directory
+        run: mkdir -p dist/test
+      - name: Move build artifacts
+        run: mv build/* dist/test/
       - name: Archive Build
         uses: actions/upload-artifact@v2
         with:
