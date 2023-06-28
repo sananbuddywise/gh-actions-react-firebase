@@ -1,5 +1,19 @@
 {
   "projects": {
     "default": "gh-actions-react-firebas-a3c4f"
+  },
+  "targets": {
+    "gh-actions-react-firebas-a3c4f": {
+      "hosting": {
+        "test": [
+          "test-gh-actions-react-firebas-a3c4f"
+        ],
+
+        "production": [
+          "gh-actions-react-firebas-a3c4f"
+        ]
+      }
+    }
+    
   }
 }
