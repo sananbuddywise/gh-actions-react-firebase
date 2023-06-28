@@ -27,12 +27,12 @@ jobs:
       - name: yarn install, build, and test
         run: |
           yarn install
-          yarn build
+          yarn build:test
       - name: Archive Build
         uses: actions/upload-artifact@v2
         with:
           name: build
-          path: build
+          path: dist/test
 
   deploy_dev:
     name: Deploy to Dev
@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build
-          path: build
+          path: dist/test
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
