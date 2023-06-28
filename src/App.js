@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-          This one is testing new branch
+          This one is targeting the test website
         </p>
         <a
           className="App-link"
