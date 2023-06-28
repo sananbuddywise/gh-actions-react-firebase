@@ -3,14 +3,17 @@ name: Firebase CI
 on:
   push:
     branches:
-      - main
+      - dev
+      - test
+      - production
   pull_request:
     branches:
-      - main
+      - dev
+      - test
+      - production
 
 jobs:
-  dev:
-    name: Development
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,37 +37,10 @@ jobs:
           name: build
           path: build
 
-  testing:
-    name: Testing
-    needs: dev
+  deploy_dev:
+    name: Deploy to Dev
+    needs: build
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'  # Only run on pull requests
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download Build
-        uses: actions/download-artifact@v2
-        with:
-          name: build
-          path: build
-      - name: Run Tests
-        run: |
-          # Add commands for running tests
-
-  production:
-    name: Production
-    needs: testing
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'  # Only run on pull requests
-
-    strategy:
-      matrix:
-        node-version: [14.x]
-
     steps:
       - uses: actions/checkout@v2
       - name: Download Build
@@ -75,16 +51,42 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting --message "Deploying to Dev"
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-
-# Define the workflow-level "pull_request" event and specify jobs for manual approval
-# on the "testing" and "production" stages
-workflows:
-  pull_request_workflow:
-    jobs:
-      - testing:
-          if: github.event.pull_request.labels[0].name == 'test'
-      - production:
-          if: github.event.pull_request.labels[0].name == 'deploy'
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_DEV }}
+          
+  deploy_test:
+    name: Deploy to Test
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting --message "Deploying to Test"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_TEST }}
+          
+  deploy_production:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: build
+          path: build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting --message "Deploying to Production"
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRODUCTION }}
