@@ -1,7 +1,6 @@
 {
   "hosting": [
     {
-      "site": "test-gh-actions-react-firebas-a3c4f",
       "target": "test",
       "public": "build",
       "ignore": [
@@ -17,7 +16,6 @@
       ]
     },
     {
-      "site": "gh-actions-react-firebas-a3c4f",
       "target": "production",
       "public": "build",
       "ignore": [

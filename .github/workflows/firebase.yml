@@ -48,6 +48,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting:test
+          args: deploy --only hosting test test-gh-actions-react-firebas-a3c4f
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
