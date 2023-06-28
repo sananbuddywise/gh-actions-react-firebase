@@ -34,8 +34,8 @@ jobs:
           name: build
           path: build
 
-  deploy:
-    name: Deploy
+  deploy_dev:
+    name: Deploy to Dev
     needs: build
     runs-on: ubuntu-latest
     steps:
@@ -48,6 +48,6 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting
+          args: deploy --only hosting --message "Deploying to Dev"
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
