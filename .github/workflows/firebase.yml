@@ -55,7 +55,7 @@ jobs:
         with:
           args: deploy --only hosting --message "Deploying to Dev"
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_DEV }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           
   deploy_test:
     name: Deploy to Test
@@ -73,7 +73,7 @@ jobs:
         with:
           args: deploy --only hosting --message "Deploying to Test"
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_TEST }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           
   deploy_production:
     name: Deploy to Production
@@ -91,4 +91,4 @@ jobs:
         with:
           args: deploy --only hosting --message "Deploying to Production"
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN_PRODUCTION }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
